@@ -11,9 +11,9 @@ public class WebClient {
     public static void main(String[] args) throws IOException{
         final int PORTNR = 1250;
 
-    ServerSocket tjener = new ServerSocket(PORTNR);
+    ServerSocket server = new ServerSocket(PORTNR);
     System.out.println("Wating for connection");
-    Socket forbindelse = tjener.accept(); 
+    Socket forbindelse = server.accept(); 
 
     InputStreamReader leseforbindelse = new InputStreamReader(forbindelse.getInputStream());
     BufferedReader leseren = new BufferedReader(leseforbindelse);
