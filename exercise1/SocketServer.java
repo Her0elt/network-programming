@@ -5,7 +5,7 @@ import java.net.*;
 
 
 
-class SocketTjener{
+class SocketServer{
   public static void main(String[] args) throws IOException {
     final int PORTNR = 1250;
 

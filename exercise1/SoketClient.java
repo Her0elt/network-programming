@@ -4,7 +4,7 @@ package exercise1;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
-class SocketKlient {
+class SocketClient {
   public static void main(String[] args) throws IOException {
     final int PORTNR = 1250;
 
