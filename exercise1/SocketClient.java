@@ -7,37 +7,40 @@ import java.util.Scanner;
 class SocketClient {
   public static void main(String[] args) throws IOException {
     final int PORTNR = 1250;
+    Socket connection = null;
+    InputStreamReader readConneciton = null;
+    BufferedReader reader = null;
+    PrintWriter writer = null;
     try {
       
       Scanner ReadFromCommandLine = new Scanner(System.in);
-      System.out.print("Oppgi navnet p� maskinen der tjenerprogrammet kj�rer: ");
+      System.out.print("Give the name of the host: ");
       String tjenermaskin = ReadFromCommandLine.nextLine();
   
-      Socket forbindelse = new Socket(tjenermaskin, PORTNR);
-      System.out.println("N� er forbindelsen opprettet.");
+      connection = new Socket(tjenermaskin, PORTNR);
+      System.out.println("Connection created.");
   
-      InputStreamReader readConneciton
-                        = new InputStreamReader(forbindelse.getInputStream());
-      BufferedReader reader = new BufferedReader(readConneciton);
-      PrintWriter writer = new PrintWriter(forbindelse.getOutputStream(), true);
+      readConneciton = new InputStreamReader(connection.getInputStream());
+      reader = new BufferedReader(readConneciton);
+      writer = new PrintWriter(connection.getOutputStream(), true);
   
-      String innledning1 = reader.readLine();
-      String innledning2 = reader.readLine();
-      System.out.println(innledning1 + "\n" + innledning2);
+      String intro1 = reader.readLine();
+      String intro2 = reader.readLine();
+      System.out.println(intro1 + "\n" + intro2);
       
-      String enLinje = ReadFromCommandLine.nextLine();
-      while (!enLinje.equals("")) {
-        writer.println(enLinje);
+      String aline = ReadFromCommandLine.nextLine();
+      while (!aline.equals("")) {
+        writer.println(aline);
         String respons = reader.readLine();  
-        System.out.println("Fra tjenerprogrammet: " + respons);
-        enLinje = ReadFromCommandLine.nextLine();
+        System.out.println("From server: " + respons);
+        aline = ReadFromCommandLine.nextLine();
       }
     } catch (Exception e) {
       
     }finally{
       reader.close();
       writer.close();
-      forbindelse.close();
+      connection.close();
     }
   }
 }

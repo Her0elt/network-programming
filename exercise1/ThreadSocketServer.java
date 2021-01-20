@@ -13,7 +13,7 @@ class ClientHandler extends Thread{
          reader = new BufferedReader(readConnection);
          writer = new PrintWriter(forbindelse.getOutputStream(), true);
     }
-    public void run(){
+    public void run() {
         try{
             writer.println("You have contact with the server");
             writer.println("Write a equation in the format 1 + 1, then i'll give you the answer," 
@@ -22,23 +22,26 @@ class ClientHandler extends Thread{
             String aLine = reader.readLine();
             while (aLine != null) {
 
-                String svar = calc(aLine.split(" "));
-                writer.println(svar);
+                String ans = calc(aLine.split(" "));
+                writer.println(ans);
                 aLine = reader.readLine();
 
             }
-
-            /* Lukker forbindelse */
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            reader.close();
-            writer.close();
-            s.close();
             
+            /* Lukker forbindelse */
+        }catch(Exception e){
+            e.printStackTrace();
+    
         }
+            try {
+                reader.close();
+                writer.close();
+                s.close();
+            } catch (Exception e) {
+            }
+        
     }
-    public static String calc(String[] array) {
+    public String calc(String[] array) {
         if (array.length != 3)
             return "Wrong format";
     
@@ -74,10 +77,9 @@ class ThreadSocketServer{
 
             } catch (Exception e) {
                 
-            }finally{
-                server.close();
             }
         }
+        server.close();
     }
        
 }
