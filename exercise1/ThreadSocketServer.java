@@ -29,11 +29,13 @@ class ClientHandler extends Thread{
             }
 
             /* Lukker forbindelse */
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
             reader.close();
             writer.close();
             s.close();
-        }catch(IOException e){
-            e.printStackTrace();
+            
         }
     }
     public static String calc(String[] array) {
@@ -72,6 +74,8 @@ class ThreadSocketServer{
 
             } catch (Exception e) {
                 
+            }finally{
+                server.close();
             }
         }
     }

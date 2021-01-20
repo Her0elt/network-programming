@@ -8,32 +8,35 @@ import java.net.*;
 class SocketServer{
   public static void main(String[] args) throws IOException {
     final int PORTNR = 1250;
+    try{
 
-    ServerSocket server = new ServerSocket(PORTNR);
-    System.out.println("Logg for tjenersiden. Nå venter vi...");
-    Socket connection = server.accept(); 
-
-    InputStreamReader readConnection = new InputStreamReader(connection.getInputStream());
-    BufferedReader reader = new BufferedReader(readConnection);
-    PrintWriter writer = new PrintWriter(connection.getOutputStream(), true);
-
-    writer.println("You have contact with the server");
-            writer.println("Write a equation in the format 1 + 1, then i'll give you the answer," 
-                    + "end with enter");
-
-    String aLine = reader.readLine();  
-    while (aLine != null) { 
-        
-        String answer = calc(aLine.split(" ")); 
-        writer.println(answer);
-        aLine = reader.readLine();
-
+        ServerSocket server = new ServerSocket(PORTNR);
+        System.out.println("Logg for tjenersiden. Nå venter vi...");
+        Socket connection = server.accept(); 
+    
+        InputStreamReader readConnection = new InputStreamReader(connection.getInputStream());
+        BufferedReader reader = new BufferedReader(readConnection);
+        PrintWriter writer = new PrintWriter(connection.getOutputStream(), true);
+    
+        writer.println("You have contact with the server");
+                writer.println("Write a equation in the format 1 + 1, then i'll give you the answer," 
+                        + "end with enter");
+    
+        String aLine = reader.readLine();  
+        while (aLine != null) { 
+            
+            String answer = calc(aLine.split(" ")); 
+            writer.println(answer);
+            aLine = reader.readLine();
+        }
+    } catch(Expection e){
+    }finally{
+        reader.close();
+        writer.close();
+        connection.close();
     }
 
     /* Lukker forbindelse */
-    reader.close();
-    writer.close();
-    connection.close();
   }
   public static String calc(String[] array) {
     if (array.length != 3)
