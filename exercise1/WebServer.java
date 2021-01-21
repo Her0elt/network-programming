@@ -39,12 +39,6 @@ public class WebServer {
             writer.flush();
             server.close();
         } catch (Exception e) {
-        }finally{
-                reader.close();
-                writer.close();
-                connection.close();
-                
-            }
-        
+        }
     }
 }
