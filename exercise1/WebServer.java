@@ -18,27 +18,32 @@ public class WebServer {
             ServerSocket server = new ServerSocket(PORTNR);
             System.out.println("Wating for connection");
             connection = server.accept(); 
-
             readConnection = new InputStreamReader(connection.getInputStream());
             reader = new BufferedReader(readConnection);
             writer = new PrintWriter(connection.getOutputStream(), true);
-            while(!reader.readLine().equals("") )
+            String headers = "";
+            String line = reader.readLine();
+            while(!line.equals("")) {
+                headers += "<li>"+ line +"</li>\n";
+                line = reader.readLine();
+            }
             writer.println("HTTP/1.0 200 OK");
             writer.println("Content-Type: text/html; charset=utf-8");
             writer.println("");
             writer.println("<!DOCTYPE html><html><body>");
             writer.println("<h1> U have connect to the host </h1>");
             writer.println("<ul>");
-            writer.println("<li> ...... </li>");
+            writer.println(headers);
             writer.println("</ul>");
             writer.println("</body></html>");
             writer.flush();
+            server.close();
         } catch (Exception e) {
         }finally{
                 reader.close();
                 writer.close();
                 connection.close();
-
+                
             }
         
     }
