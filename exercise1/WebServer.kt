@@ -29,8 +29,8 @@ fun main() {
                 writer.println("</ul>")
                 writer.println("</body></html>")
                 writer.flush()
-                server.close()
             }
         }
     }
+    server.close()
 }
