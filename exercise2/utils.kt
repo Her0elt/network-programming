@@ -1,5 +1,8 @@
 package exercise2
 
+import java.io.*
+import java.net.DatagramPacket
+import java.net.DatagramSocket
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.AsynchronousServerSocketChannel
@@ -9,6 +12,42 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+
+data class Equation(val nr1: String, val nr2: String, val op: String, var ans: String): Serializable
+
+fun  deserializeEquation(data: ByteArray):Equation?{
+    return runCatching <Equation>{
+        val iStream =  ObjectInputStream( ByteArrayInputStream(data));
+        val obj = iStream.readObject() as Equation
+        iStream.close();
+        return obj
+    }.getOrNull()
+}
+fun equationFromString(msg:String):Equation{
+    val eq = msg.split(" ".toRegex()).toTypedArray()
+    return Equation(eq[0],eq[2],eq[1], "")
+}
+fun serializeEquation(e: Equation): ByteArray? {
+    return runCatching<ByteArray> {
+        val baos = ByteArrayOutputStream(2048)
+        val oos = ObjectOutputStream(baos)
+        oos.writeObject(e)
+        oos.close()
+        val obj = baos.toByteArray()
+        baos.close()
+        return obj
+    }.getOrNull()
+}
+
+fun receive(sokcet: DatagramSocket): Equation? {
+    var receive = ByteArray(6000)
+    val recvPacket = DatagramPacket(receive, receive.size)
+    sokcet.receive(recvPacket)
+    val obj: Equation? = deserializeEquation(receive)
+    return obj
+}
+
+
 
 fun data(a: ByteArray): StringBuilder {
     val ret = StringBuilder()
