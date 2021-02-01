@@ -1,8 +1,6 @@
 package exercise2
 
 import java.io.*
-import java.net.DatagramPacket
-import java.net.DatagramSocket
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.AsynchronousServerSocketChannel
@@ -38,16 +36,6 @@ fun serializeEquation(e: Equation): ByteArray? {
         return obj
     }.getOrNull()
 }
-
-fun receive(sokcet: DatagramSocket): Equation? {
-    var receive = ByteArray(6000)
-    val recvPacket = DatagramPacket(receive, receive.size)
-    sokcet.receive(recvPacket)
-    val obj: Equation? = deserializeEquation(receive)
-    return obj
-}
-
-
 
 fun data(a: ByteArray): StringBuilder {
     val ret = StringBuilder()

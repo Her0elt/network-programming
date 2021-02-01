@@ -1,31 +1,24 @@
 package exercise2
 
 import java.net.DatagramPacket
-import java.net.DatagramSocket
 import java.net.InetAddress
+import java.net.MulticastSocket
 
 fun main() {
-    val ds = DatagramSocket()
+    val ds = MulticastSocket(1251)
     var receive = ByteArray(6000)
-    var msg = " "
-    val buf: ByteArray = msg.toByteArray()
-    val dpSend = DatagramPacket(buf, buf.size, InetAddress.getLocalHost(), 1250)
-    ds.send(dpSend)
+    val group = InetAddress.getByName("224.0.0.1")
+    ds.joinGroup(group)
     while (true) {
-        val dpReceive = DatagramPacket(receive, receive.size, InetAddress.getLocalHost(), 1250)
+        val dpReceive = DatagramPacket(receive, receive.size)
         ds.receive(dpReceive)
-        msg = dataB(receive).toString()
+         val msg = data(receive).toString()
         println(msg)
         receive = ByteArray(6000)
         if(msg.isBlank())break
     }
+    ds.leaveGroup(group)
+    ds.close();
 
 
-}
-fun dataB(a: ByteArray): StringBuilder {
-    val ret = StringBuilder()
-    for (element in a){
-        ret.append(element.toChar())
-    }
-    return ret
 }
