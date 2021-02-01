@@ -6,7 +6,6 @@ import java.net.MulticastSocket
 
 
 fun main() {
-
     val ds = MulticastSocket(1251)
     var receive = ByteArray(6000)
     val group = InetAddress.getByName("224.0.0.1")

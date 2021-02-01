@@ -11,7 +11,7 @@ fun main() {
     while (msg != "") {
         val dpReceive = DatagramPacket(receive, receive.size)
         ds.receive(dpReceive)
-        msg = data(receive).toString()
+        msg = String(receive)
         print(msg)
         val buf: ByteArray = calc(msg.split(" ".toRegex()).toTypedArray()).toByteArray()
         val dpSend = DatagramPacket(buf, buf.size,dpReceive.address,dpReceive.port)

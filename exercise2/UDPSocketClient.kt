@@ -18,7 +18,7 @@ fun main() {
         ds.send(dpSend)
         val dpReceive = DatagramPacket(receive, receive.size, ip, 1250)
         ds.receive(dpReceive)
-        println(data(receive).toString())
+        println(String(receive))
         receive = ByteArray(65535)
         msg = sc.nextLine()
     }

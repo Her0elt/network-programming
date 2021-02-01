@@ -7,18 +7,13 @@ suspend fun runServer(){
     val server = asyncOpenServer()
     server.asyncBind(InetSocketAddress("127.0.0.1", 1250))
     val worker: AsynchronousSocketChannel =  server.asyncAccept()
-    val instructions = "Write a equation in the format 1 + 1, then i'll give you the answer, end with enter"
+    val instructions = "Write a message and i will return it to you"
     sendMessage(instructions, worker)
     var msg = readMessage(worker)
     while(msg != ""){
-        val answer = calc(msg.split(" ".toRegex()).toTypedArray())
-        sendMessage(answer, worker)
+        sendMessage(msg, worker)
         msg = readMessage(worker)
     }
-    for (i in 1..5){
-        println(i)
-    }
-
 }
  suspend fun main(){
     runServer()

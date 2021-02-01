@@ -37,14 +37,6 @@ fun serializeEquation(e: Equation): ByteArray? {
     }.getOrNull()
 }
 
-fun data(a: ByteArray): StringBuilder {
-    val ret = StringBuilder()
-    for (element in a){
-        ret.append(element.toChar())
-    }
-    return ret
-}
-
 fun calc(array: Array<String>): String {
     if (array.size != 3) return "Wrong format"
      if (array[1] == "/" && array[2] == "0")return "You can't divide by zero"
@@ -108,7 +100,6 @@ object ReadCompletionHandler : CompletionHandler<Int, Continuation<Int>> {
 }
 
 suspend fun sendMessage(msg: String, client:AsynchronousSocketChannel) {
-    println(msg)
     val byteMsg: ByteArray = msg.toByteArray()
     val buffer = ByteBuffer.wrap(byteMsg)
     client.asyncWrite(buffer)
@@ -117,6 +108,7 @@ suspend fun sendMessage(msg: String, client:AsynchronousSocketChannel) {
 suspend fun readMessage(client:AsynchronousSocketChannel): String {
     val buffer: ByteBuffer = ByteBuffer.allocate(128)
     client.asyncRead(buffer)
-    val echo = String(buffer.array()).trim { it <= ' ' }
+    val echo = String(buffer.array())
+    buffer.clear()
     return echo
 }
