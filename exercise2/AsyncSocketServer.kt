@@ -15,6 +15,10 @@ suspend fun runServer(){
         sendMessage(answer, worker)
         msg = readMessage(worker)
     }
+    for (i in 1..5){
+        println(i)
+    }
+
 }
  suspend fun main(){
     runServer()

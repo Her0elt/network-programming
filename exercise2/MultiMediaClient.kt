@@ -4,7 +4,9 @@ import java.net.DatagramPacket
 import java.net.InetAddress
 import java.net.MulticastSocket
 
+
 fun main() {
+
     val ds = MulticastSocket(1251)
     var receive = ByteArray(6000)
     val group = InetAddress.getByName("224.0.0.1")
@@ -12,7 +14,7 @@ fun main() {
     while (true) {
         val dpReceive = DatagramPacket(receive, receive.size)
         ds.receive(dpReceive)
-         val msg = data(receive).toString()
+         val msg = String(receive)
         println(msg)
         receive = ByteArray(6000)
         if(msg.isBlank())break

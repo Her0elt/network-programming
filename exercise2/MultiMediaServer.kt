@@ -14,7 +14,6 @@ fun main() {
         val buf: ByteArray = msg.toByteArray()
         val dpSend = DatagramPacket(buf, buf.size, InetAddress.getByName("224.0.0.1"), 1251)
         ds.send(dpSend)
-
         if(msg == "")m=false
     }
 }
