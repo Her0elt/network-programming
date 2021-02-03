@@ -6,10 +6,10 @@
 *.out
 # Log file
 *.log
-
 # BlueJ files
 *.ctxt
 
+!makefile
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
