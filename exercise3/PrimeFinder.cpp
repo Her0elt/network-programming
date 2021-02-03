@@ -23,9 +23,8 @@ public:
             pair<int, int> pair{(i * num_of_elements / thread_amount) + low,((i + 1) * num_of_elements / thread_amount) + low};
             for (int n = pair.first + 1; n < pair.second; n++){
                 if (isPrime(n)){
-                    primes_mutex.lock();
+                    lock_guard<mutex> guard(primes_mutex);
                     primes.emplace_back(n);
-                    primes_mutex.unlock();
                 }
             }
             });
@@ -60,7 +59,7 @@ public:
 int main(){
     auto t1 = high_resolution_clock::now();
     {
-    PrimeFinder(1, 5000, 100);  
+    PrimeFinder(1, 500000, 100);  
     }
     auto t2 = high_resolution_clock::now();
     double milli_sec = duration_cast<milliseconds>(t2-t1).count();
