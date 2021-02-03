@@ -3,64 +3,66 @@
 #include <thread>
 #include <functional>
 #include <list>
+#include <chrono>
 
 using namespace std;
+using namespace chrono;
 
 class PrimeFinder{
 
-    int current;
-    mutex curret_mutex;
-    int last;
-    mutex primes_mutex;
-    list<thread> thread_list;
-    list<int> primes; 
+  mutex primes_mutex;
+  list<thread> thread_list;
+  list<int> primes;
 
-    public:
-        PrimeFinder(int start, int end, int thread_amount){
-            current = start;
-            last = end;
-            for(int i= 0; i<thread_amount; i++){
-                thread_list.emplace_back([this]{
-                while(current != last){
-                    int test = 0;
-                    curret_mutex.lock();
-                    test = current;
-                    current++;
-                    curret_mutex.unlock();
-                    testPrime(test);
+public:
+    PrimeFinder(int start, int end, int thread_amount){
+        int low = start - 1;
+        int num_of_elements = end - low;
+        for (int i = 0; i < thread_amount; i++){
+            thread_list.emplace_back([this, i, num_of_elements, thread_amount, low] {
+            pair<int, int> pair{(i * num_of_elements / thread_amount) + low,((i + 1) * num_of_elements / thread_amount) + low};
+            for (int n = pair.first + 1; n < pair.second; n++){
+                if (isPrime(n)){
+                    primes_mutex.lock();
+                    primes.emplace_back(n);
+                    primes_mutex.unlock();
                 }
+            }
             });
-            if(current == last)break;
         }
-            
-            for(auto &thread: thread_list){
-                thread.join();
+        for (auto &thread : thread_list){
+            thread.join();
+        }
+    };
+
+    bool isPrime(int n){
+        if (n == 0 || n == 1){
+            return false;
+        }
+        for (int i = 2; i <= n / 2; ++i){
+            if (n % i == 0){
+                return false;
             }
         }
-        void testPrime(int test){
-            bool isPrime = true;
-            for (int i = 2; i<test; i++){
-                if((test%i) == 0){
-                    isPrime = false;
-                }
-            }
-            if(isPrime){
-                primes_mutex.lock();
-                primes.emplace_back(test);
-                primes_mutex.unlock();
-            }
-        }
-        ~PrimeFinder(){
-            thread_list.clear();
-            primes.sort();
-            for(auto &prime : primes){
-                printf("%d ", prime);
-            }
-            printf("\n");
-        }
-};
-int main(){
-    {
-        PrimeFinder(3, 500, 100);
+        return true;
     }
+
+    ~PrimeFinder(){
+        thread_list.clear();
+        primes.sort();
+        for (auto &prime : primes){
+            printf("%d ", prime);
+        }
+        printf("\n");
+    }
+};
+
+int main(){
+    auto t1 = high_resolution_clock::now();
+    {
+    PrimeFinder(1, 5000, 100);  
+    }
+    auto t2 = high_resolution_clock::now();
+    double milli_sec = duration_cast<milliseconds>(t2-t1).count();
+    printf("%f seconds\n",milli_sec/1000); 
 }
