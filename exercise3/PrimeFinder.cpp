@@ -59,7 +59,7 @@ public:
 int main(){
     auto t1 = high_resolution_clock::now();
     {
-    PrimeFinder(1, 500000, 100);  
+    PrimeFinder(1, 50000000, 100);  
     }
     auto t2 = high_resolution_clock::now();
     double milli_sec = duration_cast<milliseconds>(t2-t1).count();
