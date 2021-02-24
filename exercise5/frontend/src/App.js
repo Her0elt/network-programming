@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     padding: 25,
     gridArea: "text2",
     color:'white',
+    whiteSpace: 'pre-line',
   },
   btn:{
     color:'white',
@@ -53,10 +54,10 @@ function App() {
       setAns(response.data.ans);
     })
     .catch((error) => {
-      setAns("Something wrong happend")
+      setAns("Something wrong happend");
       console.log(error);
-    })
-  }
+    });
+  };
  return(
    <Paper className={classes.root}>
      <TextField  InputProps={{className: classes.input}} variant="outlined" multiline className={classes.inputField} value={code} onChange={(e) => setCode(e.target.value)}></TextField >
