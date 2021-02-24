@@ -26,7 +26,6 @@ const useStyles = makeStyles({
     backgroundColor: "#131924",
     padding: 25,
     gridArea: "text2",
-    height: 325,
     color:'white',
   },
   btn:{
@@ -60,7 +59,7 @@ function App() {
   }
  return(
    <Paper className={classes.root}>
-     <TextField  rowsMax={18} InputProps={{className: classes.input}}rows={18} variant="outlined" multiline className={classes.inputField} value={code} onChange={(e) => setCode(e.target.value)}></TextField >
+     <TextField  InputProps={{className: classes.input}} variant="outlined" multiline className={classes.inputField} value={code} onChange={(e) => setCode(e.target.value)}></TextField >
      <Typography className={classes.outputField}>{ans}</Typography>
      <Button variant="outlined" className={classes.btn} onClick={compile}>Compile</Button>
    </Paper>

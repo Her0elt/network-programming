@@ -1,4 +1,4 @@
-FROM gcc:4.9
+FROM gcc:9.3.0
 RUN mkdir /cpp
 WORKDIR /cpp
 COPY main.cpp /cpp/

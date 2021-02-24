@@ -13,7 +13,7 @@ app.use(cors({origin: 'http://localhost:3000'}));
 app.post('/compile', (req, res) => {
     writeToFile(req.body["code"]);
     const { exec } = require("child_process");
-    exec("docker build ./cpp/ -t gcc",() =>{
+    exec("docker build \"./cpp/\" -t gcc",() =>{
         exec("docker run --rm gcc", (error, stdout, stderr) => {
             res.status(200).send(JSON.stringify({ans:stdout}))  
         })
